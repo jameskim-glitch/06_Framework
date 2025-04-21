@@ -45,7 +45,7 @@ public class TodoController {
 		
 		return "redirect:/"; // 메인 페이지로 재요청
 	}
-
+	// /todo/detail?todoNo=1
 	// /todo/detail?todoNo=2
 	@GetMapping("detail")// /todo/detail GET 요청 매핑
 	public String todoDetail(@RequestParam("todoNo") int todoNo, Model model, RedirectAttributes ra) {
@@ -67,5 +67,122 @@ public class TodoController {
 		
 		return path;
 	}
+	// todo/changetComplete?todoNo=4&complete=Y
+	/** 완료 여부 변경
+	 * @param todo : 커맨드 객체(@ModelAttribute 생략)
+	 *  - 파라미더의 key 와 Todo 객체의 필드명이 일치하면
+	 *  - 일치하는 필드값이 파라미터의 value 값으로 세팅된 상태
+	 *  - 즉, todoNo 와 complete 두 필드가 세팅 완료된 상태
+	 * @return
+	 */
+	@GetMapping("changeComplete")
+	public String changeComplete(/*@ModelAttribute*/ Todo todo, RedirectAttributes ra) {
+		
+		// 변경 서비스 호출
+		int result = service.changeComplete(todo);
+		
+		// 변경 성공 시 : "변경 성공!!"
+		// 변경 실패 시 : "변경 실패..."
+		String message = null;
+		if(result > 0) message = "변경 성공!!";
+		else		   message = "변경 실패...";
+		
+		ra.addFlashAttribute("message", message);
+		
+		//상대 경로 (현재 위치 중요!!!)
+		// 현재 주소 : /todo/changeComplete
+		// 재요청 주소 : /todo/detail
+		return "redirect:detail?todoNo=" + todo.getTodoNo();
+	}
 
+	/** 수정 화면 전환 요청
+	 * @return
+	 */
+	@GetMapping("update")
+	public String todoUpdate(@RequestParam("todoNo") int todoNo, Model model) {
+	
+		// 상세 조회 서비스 호출(재활용) -> 수정 화면에 출력할 기존 내용
+		Todo todo = service.todoDetail(todoNo);
+		
+		model.addAttribute("todo", todo);
+		
+		// classpath://templates/todo/update.html 로 forward
+		return"todo/update";
+	}
+	@PostMapping("update")
+	public String todoUpdate(Todo todo, RedirectAttributes ra) {
+		// 수정 서비스 호출 후 결과 반환받기
+	    int result = service.todoUpdate(todo);
+
+	    String message;
+	    String path;
+
+	    if (result > 0) {
+			// 상세 조회로 리 다이렉트
+	        path = "redirect:/todo/detail?todoNo=" + todo.getTodoNo();
+	     // redirect:/todo/detail?todoNo=1
+	        message = "수정 성공!!";
+	    } else {
+	        path = "redirect:/todo/update?todoNo=" + todo.getTodoNo();
+	     // redirect:/todo/update?todoNo=1
+	        message = "수정 실패...";
+	    }
+
+	    ra.addFlashAttribute("message", message);
+
+	    return path; // "redirect:/todo/..."
+	}
+	@GetMapping("delete")
+	public String todoDelete(@RequestParam("todoNo") int todoNo, RedirectAttributes ra) {
+
+		String path = "redirect:/"; // 기본은 메인으로 이동
+
+		try {
+			// 삭제 서비스 호출
+			int result = service.todoDelete(todoNo);
+
+			if(result > 0) {
+				ra.addFlashAttribute("message", "삭제 성공.");
+			} else {
+				// 삭제 실패 → 다시 상세 조회 페이지로 리다이렉트
+				ra.addFlashAttribute("message", "삭제 실패");
+				path = "redirect:/todo/detail?todoNo=" + todoNo;
+			}
+
+		} catch(Exception e) {
+			e.printStackTrace();
+			ra.addFlashAttribute("message", "삭제 중 오류 발생");
+			// 에러 발생 시에도 상세페이지로 돌아감
+			path = "redirect:/todo/detail?todoNo=" + todoNo;
+		}
+
+		return path;
+	}
 }
+/*
+@GetMapping("delete")
+public String todoDelete(@RequestParam("todoNo") int todoNo,
+						RedirectAttributes ra) {
+	
+	
+	int result = service.todoDelete(todoNo);
+	
+	String path = null;
+	String message = null;
+	
+	if(result > 0) {
+		path = "/";
+		message = "삭제 성공";
+	} else {
+		path = "/todo/detail?todoNo=" + todoNo;
+		message = "삭제 실패";
+	}
+	
+	ra.addFlashAttribute("message", message);
+	
+	return "redirect:" + path;
+	
+}
+
+*/
+
