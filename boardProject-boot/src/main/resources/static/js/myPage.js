@@ -1,3 +1,29 @@
+// 다음 주소 API 다루기
+function execDaumPostcode() {
+    new daum.Postcode({
+      oncomplete: function (data) {
+        // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+  
+        // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+        // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+        var addr = ''; // 주소 변수
+  
+        //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+        if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+          addr = data.roadAddress;
+        } else { // 사용자가 지번 주소를 선택했을 경우(J)
+          addr = data.jibunAddress;
+        }
+  
+        // 우편번호와 주소 정보를 해당 필드에 넣는다.
+        document.getElementById('postcode').value = data.zonecode;
+        document.getElementById("address").value = addr;
+        // 커서를 상세주소 필드로 이동한다.
+        document.getElementById("detailAddress").focus();
+      }
+    }).open();
+  }
+
 /* 회원 정보 수정 페이지 */
 const updateInfo = document.querySelector("#updateInfo"); // form 태그
 
@@ -85,12 +111,18 @@ if(updateInfo != null) {
         if( !(result1 || result2) ) {
             alert("주소를 모두 작성 또는 미작성 해주세요");
             // e.preventDefault();
+            return;
         }
     });
 }
 
 // 위 의 모든 검등을 통과햇을 때만 폼 제출
 updateInfo.submit();
+/*
+submit 이벤트 핸들러 함수 내에서 fetch를 이용한 비동기 함수를 실행중 일 때
+e.preventDefault() 가 비동기 함수 이후에 호출되면 이미 form 이 submit 되어버린 다음일 수 있음
+-> 비동기 작업 중에 form 의 기본 제출 동작 일어나는 가능성이 생김
+*/
 
 
 // ------------------------------------------
@@ -99,7 +131,7 @@ updateInfo.submit();
 
 // 비밀번호 변경 form 태그
 const changePw = document.querySelector("#changePw");
-
+// 현재 페이지에서 changePw 요소가 존재할 때
 if(changePw != null) {
     // 제출 되었을 때
     changePw.addEventListener("submit", e => {
@@ -201,3 +233,8 @@ const imageInput = document.getElementById("imageInput");  // 이미지 파일 �
 const deleteImage = document.getElementById("deleteImage");  // 이미지 삭제 버튼
 const MAX_SIZE = 1024 * 1024 * 5;  // 최대 파일 크기 설정 (5MB)
 
+// 주소 검색 버튼 클릭 시 다음 주소 API 실행 (버튼이 존재할 때만)
+const searchAddressBtn = document.querySelector("#searchAddress");
+if (searchAddressBtn !== null) {
+  searchAddressBtn.addEventListener("click", execDaumPostcode);
+}
