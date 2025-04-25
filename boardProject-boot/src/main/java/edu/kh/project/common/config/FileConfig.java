@@ -13,6 +13,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import jakarta.mail.Multipart;
 import jakarta.servlet.MultipartConfigElement;
+import lombok.val;
 
 @Configuration
 @PropertySource("classpath:/config.properties")
@@ -39,6 +40,16 @@ public class FileConfig implements WebMvcConfigurer {
 	private String location;
 
 	// ----------------------------------------------------------------------------------
+	
+	// 프로필 이미지 관련 경로
+	@Value("${my.profile.resource-handler}")
+	private String profileResourceHander;
+	@Value("${my.profile.resource-location}")
+	private String proflieResourceLocation;
+	
+	
+	
+	
 
 	// 요청 주소에 따라
 	// 서버 컴퓨터에 어떤 경로에 접근할 지 설정
@@ -56,7 +67,10 @@ public class FileConfig implements WebMvcConfigurer {
 
 		// -> 클라이언트가 /myPagw/file/** 패턴으로 이미지를 요청할 때
 		// 서버 폴더 경로중 C:/uploadFiles/temp/ 로 연결하겠다(여기서 이미지 찾겠다)
-
+		registry
+		.addResourceHandler(profileResourceHander) // /myPage/profile/**
+		.addResourceLocations(proflieResourceLocation); // C:/uploadFiles/profile/
+		
 	}
 
 	// MultipartResolver 설정

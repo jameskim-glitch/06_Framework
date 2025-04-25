@@ -3,6 +3,7 @@ package edu.kh.project.myPage.controller;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.angus.mail.handlers.multipart_mixed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +21,7 @@ import edu.kh.project.member.model.dto.Member;
 import edu.kh.project.myPage.model.dto.UploadFile;
 import edu.kh.project.myPage.model.service.MyPageService;
 import jakarta.mail.Multipart;
+import lombok.extern.slf4j.Slf4j;
 
 /*
  * @SessionAttributes 의 역할
@@ -33,6 +35,7 @@ import jakarta.mail.Multipart;
 @SessionAttributes({"loginMember"})
 @Controller
 @RequestMapping("myPage")
+@Slf4j
 public class MyPageController {
 	
 	@Autowired
@@ -258,8 +261,58 @@ public class MyPageController {
 		return "myPage/myPage-fileList";
 	}
 
+	@PostMapping("file/test3") // /myPage/file/test3
+	public String fileUpload3(@RequestParam("aaa") List<MultipartFile> aaaList, 
+			@RequestParam("bbb") List<MultipartFile> bbbList,
+			@SessionAttribute("loginMember")Member loginMember,
+			RedirectAttributes ra) throws Exception {
+		
+		log.debug("aaaList : " + aaaList);
+		log.debug("bbbList : " + bbbList);
+		
+		// aaa 파일 미 제출시
+		// -> 0번, 1번 인덱스가 존재하는 List 가 있음
+		// -> 0,1번 인덱스에는 MultiPartFile 객체가 존재하나, 둘다 비어있는 객체인 상태
+		// -> 0,1 번 인덱스가 존재하는 이유는 html 에서 제출된 파라미터중 name 값이 aaa인 2개의 <input type="file"> 태그가 있기 때문
+		
+		// bbb 파일 미제출시
+		// 0번 인덱스에 있는 MultipartFile 객체가 비어있음
+		
+		// 여러 파일 업로드 서비스 호출
+		int memberNo = loginMember.getMemberNo();
+		
+		int result = service.fileUpload3(aaaList, bbbList,  memberNo);
+		// result == 업로드된 파일 개수
+		
+		String message = null;
+		
+		if(result == 0) {
+			message = "업로드된 파일이 없습니다";
+		} else {
+			message = result + "개의 파일이 업로드 되었습니다!";
+		}
+		ra.addFlashAttribute("message", message);
+		
+		return "redirect:/myPage/fileTest";
+	}
+	@PostMapping("profile")
+	public String profile(@RequestParam("profileImg") MultipartFile profileImg,
+						  @SessionAttribute("loginMember")Member loginMember,
+						  RedirectAttributes ra) throws Exception {
 
-
+		
+		// 업로드 된 파일 정보를 DB에 INSERT 후 결과 행의 갯수 반환 받을 예정
+		int result = service.profile(profileImg, loginMember);
+		
+		String message = null;
+		
+		if(result > 0) message = "변경 성공!";
+		else		message = "변경 실패";
+		
+		ra.addFlashAttribute("message", message);
+		
+		return "redirect:profile";
+	}
 
 
 }
