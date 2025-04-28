@@ -1,4 +1,18 @@
 [ {
+  "version" : "8.14",
+  "buildTime" : "20250425092908+0000",
+  "current" : true,
+  "snapshot" : false,
+  "nightly" : false,
+  "releaseNightly" : false,
+  "activeRc" : false,
+  "rcFor" : "",
+  "milestoneFor" : "",
+  "broken" : false,
+  "downloadUrl" : "https://services.gradle.org/distributions/gradle-8.14-bin.zip",
+  "checksumUrl" : "https://services.gradle.org/distributions/gradle-8.14-bin.zip.sha256",
+  "wrapperChecksumUrl" : "https://services.gradle.org/distributions/gradle-8.14-wrapper.jar.sha256"
+}, {
   "version" : "8.14-20250425012124+0000",
   "buildTime" : "20250425012124+0000",
   "current" : false,
@@ -19,7 +33,7 @@
   "snapshot" : false,
   "nightly" : false,
   "releaseNightly" : false,
-  "activeRc" : true,
+  "activeRc" : false,
   "rcFor" : "8.14",
   "milestoneFor" : "",
   "broken" : false,
@@ -169,7 +183,7 @@
 }, {
   "version" : "8.13",
   "buildTime" : "20250225092214+0000",
-  "current" : true,
+  "current" : false,
   "snapshot" : false,
   "nightly" : false,
   "releaseNightly" : false,
