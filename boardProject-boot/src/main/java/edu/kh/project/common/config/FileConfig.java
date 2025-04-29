@@ -47,6 +47,15 @@ public class FileConfig implements WebMvcConfigurer {
 	@Value("${my.profile.resource-location}")
 	private String proflieResourceLocation;
 	
+	// -------------------------------------------------------------------------------------
+	
+	// 게시판 이미지 관련 경로
+	@Value("${my.board.resource-handler}")
+	private String boardResourceHandler;
+	
+	@Value("${my.board.resource-location}")
+	private String boardResourceLocation;
+	
 	
 	
 	
@@ -71,6 +80,10 @@ public class FileConfig implements WebMvcConfigurer {
 		.addResourceHandler(profileResourceHander) // /myPage/profile/**
 		.addResourceLocations(proflieResourceLocation); // C:/uploadFiles/profile/
 		
+		registry
+		.addResourceHandler(boardResourceHandler)  // /images/board/**
+		.addResourceLocations(boardResourceLocation); // file:///C:/uploadFiles/board/
+		 
 	}
 
 	// MultipartResolver 설정
