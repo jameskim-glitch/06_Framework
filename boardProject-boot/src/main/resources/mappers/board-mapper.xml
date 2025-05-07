@@ -166,6 +166,8 @@ AND BOARD_CODE = #{boardCode}
 	SELECT READ_COUNT FROM "BOARD"
 	WHERE BOARD_NO = #{boardNo}
 	</select>
+	
+
 </mapper>
 
 
