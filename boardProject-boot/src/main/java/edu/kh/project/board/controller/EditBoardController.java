@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
@@ -193,7 +194,35 @@ public class EditBoardController {
 		ra.addFlashAttribute("message", message);
 		return "redirect:" + path;
 	}
-	
+	// /editBoard/1/2000/delete?cp=1
+	@RequestMapping(value = "{boardCode:[0-9]+}/{boardNo:[0-9]+}/delete", method = {RequestMethod.GET,RequestMethod.POST}) // 메소드를 안쓰면 모든 요청을 받을 수 있다
+	public String boardDelte(@PathVariable("boardCode") int boardCode,
+							 @PathVariable("boardNo") int boardNo,
+							 @RequestParam(value = "cp", required = false, defaultValue = "1") int cp,
+							 RedirectAttributes ra,
+							 @SessionAttribute("loginMember") Member loginMember) {
+		Map<String, Integer> map = new HashMap<>();
+		map.put("boardCode", boardCode);
+		map.put("boardNo", boardNo);
+		map.put("memberNo", loginMember.getMemberNo());
+		int result = service.boardDelete(map);
+		
+		String path = null;
+		String message = null;
+		
+		if(result > 0) {
+			message = "삭제되었습니다";
+			path = String.format("/board/%d?cp=%d", boardCode, cp); // 게시글 목록 조회
+			// /board/1?=cp=7
+		}else {
+			message = "삭제 실패";
+			path = String.format("/board/%d/%d/?cp=%d", boardCode, boardNo, cp); // 게시글 상세 조회
+			// /board/1/2000?cp=1
+		}
+		
+		ra.addFlashAttribute("message", message);
+		return "redirect:"+path;
+	}
 	
 }
 
