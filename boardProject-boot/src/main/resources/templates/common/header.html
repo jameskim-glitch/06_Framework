@@ -9,7 +9,8 @@
     <!-- 검색어 입력할 수 있는 요소 배치 영역 -->
     <section>
       <article class="search-area">
-        <form action="#" method="GET">
+        <form th:action="@{/board/{boardCode}(boardCode=${boardCode})}" method="GET">
+
           <fieldset>
   
             <!-- autocomplete="off" : 자동완성 off -->
