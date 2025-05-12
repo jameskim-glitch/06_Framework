@@ -681,6 +681,11 @@ END;
 
 SELECT NEXT_IMG_NO() FROM DUAL;
 
+-- DB 이미지 파일명 목록 조회(게시판/프로필)
+SELECT SUBSTR(PROFILE_IMG,
+INSTR(PROFILE_IMG. '/', -1) +1 ) AS "rename"
+FROM "MEMBER"
+WHERE PROFILE_IMG IS NOT NULL;
 
 ----------------------------------------------------------
 /* 채팅 */
