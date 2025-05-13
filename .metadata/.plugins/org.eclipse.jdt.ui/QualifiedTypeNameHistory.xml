@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="org.springframework.context.annotation.Bean"/>
-    <fullyQualifiedTypeName name="org.apache.ibatis.session.RowBounds"/>
-    <fullyQualifiedTypeName name="java.lang.reflect.Member"/>
     <fullyQualifiedTypeName name="java.lang.ProcessBuilder.Redirect"/>
     <fullyQualifiedTypeName name="lombok.AllArgsConstructor"/>
     <fullyQualifiedTypeName name="lombok.NoArgsConstructor"/>
@@ -29,14 +26,12 @@
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PutMapping"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestBody"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.GetMapping"/>
-    <fullyQualifiedTypeName name="org.springframework.ui.Model"/>
     <fullyQualifiedTypeName name="java.util.Map"/>
     <fullyQualifiedTypeName name="edu.kh.project.board.model.dto.Board"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PostMapping"/>
     <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="org.springframework.web.multipart.MultipartFile"/>
     <fullyQualifiedTypeName name="edu.kh.project.member.model.dto.Member"/>
-    <fullyQualifiedTypeName name="java.lang.Exception"/>
     <fullyQualifiedTypeName name="edu.kh.project.common.util.Utility"/>
     <fullyQualifiedTypeName name="java.lang.RuntimeException"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestMapping"/>
@@ -60,4 +55,9 @@
     <fullyQualifiedTypeName name="java.lang.ArrayStoreException"/>
     <fullyQualifiedTypeName name="edu.kh.project.board.model.service.BoardService"/>
     <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
+    <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.ControllerAdvice"/>
+    <fullyQualifiedTypeName name="org.springframework.web.servlet.resource.NoResourceFoundException"/>
+    <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.ExceptionHandler"/>
+    <fullyQualifiedTypeName name="org.springframework.ui.Model"/>
+    <fullyQualifiedTypeName name="java.lang.Exception"/>
 </qualifiedTypeNameHistroy>
