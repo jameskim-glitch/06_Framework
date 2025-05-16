@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>보낸 쪽지</title>
+  <link rel="stylesheet" th:href="@{/css/message.css}">
+</head>
+<body>
+
+<!-- 헤더 프래그먼트 -->
+<div th:replace="fragments/layout :: header"></div>
+
+<div class="message-page-container">
+  <!-- 사이드바 프래그먼트 -->
+  <div th:replace="fragments/messageSidebar :: messageSidebar"></div>
+
+  <!-- 보낸 쪽지 목록 -->
+  <section class="message-list-section">
+    <h2>보낸 쪽지</h2>
+
+    <ul class="message-list">
+      <li th:each="msg : ${messageList}" class="message-item">
+        <a th:href="@{'/message/sent/' + ${msg.messageNo}}">
+          <span class="message-sender" th:text="${msg.receiverNickname}">받는사람</span>
+          <span class="message-title" th:text="${msg.messageTitle}">[번호] 쪽지 제목 미리보기...</span>
+          <span class="message-status" th:text="${msg.messageReadFl == 'Y' ? '읽음' : '안읽음'}">읽음</span>
+          <span class="message-date" th:text="${#dates.format(msg.messageWriteDate, 'yyyy.MM.dd')}">2025.05.20</span>
+        </a>
+      </li>
+
+      <li th:if="${#lists.isEmpty(messageList)}" class="message-item empty">
+        <span>보낸 쪽지가 없습니다.</span>
+      </li>
+    </ul>
+
+    <!-- 페이지네이션 -->
+    <div th:replace="common/pagination :: pagination(${pageInfo})"></div>
+  </section>
+</div>
+
+<!-- 푸터 프래그먼트 -->
+<div th:replace="fragments/layout :: footer"></div>
+</body>
+</html>

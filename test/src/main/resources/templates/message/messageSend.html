@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>쪽지 보내기</title>
+  <link rel="stylesheet" th:href="@{/css/message.css}">
+</head>
+<body>
+<div th:replace="fragments/layout :: header"></div>
+
+<div class="message-page-container">
+  <!-- 사이드바 삽입 -->
+  <div th:replace="fragments/messageSidebar :: messageSidebar"></div>
+
+  <!-- 쪽지 작성 폼 -->
+  <section class="message-content">
+    <h2 th:text="${receiverNickname} + ' 님에게 쪽지 보내기'">쪽지 보내기</h2>
+
+    <form th:action="@{/message/send}" method="post">
+      <textarea name="messageContent" rows="8" placeholder="내용을 입력해주세요" required></textarea>
+
+      <input type="hidden" name="receiverId" th:value="${receiverId}">
+
+      <div class="message-detail-btns">
+        <button type="submit" class="btn">보내기</button>
+        <a th:href="@{/message/received}" class="btn">취소</a>
+      </div>
+    </form>
+  </section>
+</div>
+
+<div th:replace="fragments/layout :: footer"></div>
+</body>
+</html>

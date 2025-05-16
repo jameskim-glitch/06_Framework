@@ -1,0 +1,53 @@
+<!-- fragments/layout.html -->
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>공통 레이아웃</title>
+</head>
+<body>
+
+<!-- Header Fragment -->
+<th:block th:fragment="header">
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">NanumGive</div>
+                <div class="search-box">
+                    <div class="dropdown">나눔게시판</div>
+                    <input type="text" class="search-input" placeholder="검색어를 입력해주세요.">
+                    <div class="search-icon">
+                        <img src="/images/search-icon.png" alt="검색 아이콘" />
+                    </div>
+                </div>
+                <div class="login-btn">⤵️</div>
+            </div>
+        </div>
+    </header>
+</th:block>
+
+<!-- Footer Fragment -->
+<th:block th:fragment="footer">
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="#">프로젝트 소개</a>
+                <a href="#">이용약관</a>
+                <a href="#">개인정보처리방침</a>
+                <a href="#">고객센터</a>
+            </div>
+            <div class="footer-info">
+                <p>상호명 : 나눔기부 | 대표 : 김대표</p>
+                <p>사업자등록번호 : 123-45-67890</p>
+                <p>주소 : 서울특별시 중구 남대문로 120 대한빌딩 한국기부재단 27-28F</p>
+                <p>전화 : 1234-5678</p>
+            </div>
+            <div class="copyright">
+                Copyright © 1998-2025 KH Information Educational Institute All Right Reserved
+            </div>
+        </div>
+    </footer>
+</th:block>
+
+</body>
+</html>
